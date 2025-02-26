@@ -4,10 +4,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa';
+import type { IconBaseProps } from 'react-icons';
 import { WORKFLOWS } from '@/constants/workflows';
 import { FormData, Workflow, ApiResponse, WorkflowRequest } from '@/types';
 
 export default function Home() {
+  // Cast the icon to a React component type that TypeScript will accept
+  const ChevronIcon = FaChevronDown as React.ComponentType<IconBaseProps>;
+  
   const [selectedWorkflow, setSelectedWorkflow] = useState<Workflow>(WORKFLOWS[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [formData, setFormData] = useState<FormData>({});
@@ -98,7 +102,7 @@ export default function Home() {
               {selectedWorkflow.icon}
               <span className="text-lg font-medium">{selectedWorkflow.name}</span>
             </div>
-            <FaChevronDown 
+            <ChevronIcon 
               className={`transform transition-transform duration-200 ${
                 isDropdownOpen ? 'rotate-180' : ''
               }`} 

@@ -1,38 +1,38 @@
-import { LucideIcon } from 'lucide-react';
+// src/components/buttons/IconButton.tsx
 import * as React from 'react';
 import { IconType } from 'react-icons';
 import { ImSpinner2 } from 'react-icons/im';
+import type { IconBaseProps } from 'react-icons';
 
 import { cn } from '@/lib/utils';
 
-const ButtonVariant = ['primary', 'outline', 'ghost', 'light', 'dark'] as const;
-const ButtonSize = ['sm', 'base'] as const;
+const IconButtonVariant = [
+  'primary',
+  'outline',
+  'ghost',
+  'light',
+  'dark',
+] as const;
 
-type ButtonProps = {
+type IconButtonProps = {
   isLoading?: boolean;
   isDarkBg?: boolean;
-  variant?: (typeof ButtonVariant)[number];
-  size?: (typeof ButtonSize)[number];
-  leftIcon?: IconType | LucideIcon;
-  rightIcon?: IconType | LucideIcon;
+  variant?: (typeof IconButtonVariant)[number];
+  icon?: IconType;
   classNames?: {
-    leftIcon?: string;
-    rightIcon?: string;
+    icon?: string;
   };
 } & React.ComponentPropsWithRef<'button'>;
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
-      children,
       className,
       disabled: buttonDisabled,
       isLoading,
       variant = 'primary',
-      size = 'base',
       isDarkBg = false,
-      leftIcon: LeftIcon,
-      rightIcon: RightIcon,
+      icon: Icon,
       classNames,
       ...rest
     },
@@ -40,34 +40,32 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const disabled = isLoading || buttonDisabled;
 
+    // Cast the spinner icon to a React component type
+    const SpinnerIcon = ImSpinner2 as React.ComponentType<IconBaseProps>;
+
     return (
       <button
         ref={ref}
         type='button'
         disabled={disabled}
         className={cn(
-          'inline-flex items-center rounded font-medium',
-          'focus-visible:ring-primary-500 focus:outline-none focus-visible:ring',
+          'inline-flex items-center justify-center rounded font-medium',
+          'focus:outline-none focus-visible:ring focus-visible:ring-primary-500',
           'shadow-sm',
           'transition-colors duration-75',
-          //#region  //*=========== Size ===========
-          [
-            size === 'base' && ['px-3 py-1.5', 'text-sm md:text-base'],
-            size === 'sm' && ['px-2 py-1', 'text-xs md:text-sm'],
-          ],
-          //#endregion  //*======== Size ===========
+          'min-h-[28px] min-w-[28px] p-1 md:min-h-[34px] md:min-w-[34px] md:p-2',
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
               'bg-primary-500 text-white',
-              'border-primary-600 border',
+              'border border-primary-600',
               'hover:bg-primary-600 hover:text-white',
               'active:bg-primary-700',
               'disabled:bg-primary-700',
             ],
             variant === 'outline' && [
               'text-primary-500',
-              'border-primary-500 border',
+              'border border-primary-500',
               'hover:bg-primary-50 active:bg-primary-100 disabled:bg-primary-100',
               isDarkBg &&
                 'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
@@ -82,7 +80,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             variant === 'light' && [
               'bg-white text-gray-700',
               'border border-gray-300',
-              'hover:text-dark hover:bg-gray-100',
+              'hover:bg-gray-100 hover:text-dark',
               'active:bg-white/80 disabled:bg-gray-200',
             ],
             variant === 'dark' && [
@@ -110,51 +108,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               }
             )}
           >
-            <ImSpinner2 className='animate-spin' />
+            <SpinnerIcon className='animate-spin' />
           </div>
         )}
-        {LeftIcon && (
-          <div
-            className={cn([
-              size === 'base' && 'mr-1',
-              size === 'sm' && 'mr-1.5',
-            ])}
-          >
-            <LeftIcon
-              size='1em'
-              className={cn(
-                [
-                  size === 'base' && 'md:text-md text-md',
-                  size === 'sm' && 'md:text-md text-sm',
-                ],
-                classNames?.leftIcon
-              )}
-            />
-          </div>
-        )}
-        {children}
-        {RightIcon && (
-          <div
-            className={cn([
-              size === 'base' && 'ml-1',
-              size === 'sm' && 'ml-1.5',
-            ])}
-          >
-            <RightIcon
-              size='1em'
-              className={cn(
-                [
-                  size === 'base' && 'text-md md:text-md',
-                  size === 'sm' && 'md:text-md text-sm',
-                ],
-                classNames?.rightIcon
-              )}
-            />
-          </div>
-        )}
+        {Icon && React.createElement(Icon as React.ComponentType<IconBaseProps>, {
+          size: '1em',
+          className: cn(classNames?.icon)
+        })}
       </button>
     );
   }
 );
 
-export default Button;
+export default IconButton;

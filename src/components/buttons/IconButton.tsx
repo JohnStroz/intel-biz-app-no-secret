@@ -2,6 +2,7 @@ import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 import { IconType } from 'react-icons';
 import { ImSpinner2 } from 'react-icons/im';
+import type { IconBaseProps } from 'react-icons';
 
 import { cn } from '@/lib/utils';
 
@@ -38,6 +39,9 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     ref
   ) => {
     const disabled = isLoading || buttonDisabled;
+    
+    // Cast the spinner icon to a React component type
+    const SpinnerIcon = ImSpinner2 as React.ComponentType<IconBaseProps>;
 
     return (
       <button
@@ -104,10 +108,13 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
               }
             )}
           >
-            <ImSpinner2 className='animate-spin' />
+            <SpinnerIcon className='animate-spin' />
           </div>
         )}
-        {Icon && <Icon size='1em' className={cn(classNames?.icon)} />}
+        {Icon && React.createElement(Icon as React.ComponentType<IconBaseProps>, {
+          size: '1em',
+          className: cn(classNames?.icon)
+        })}
       </button>
     );
   }

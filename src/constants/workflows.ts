@@ -12,9 +12,12 @@ import {
   FaHandshake, 
   FaCogs 
 } from 'react-icons/fa';
+import { IconType } from 'react-icons';
+import type { IconBaseProps } from 'react-icons';
 
-const createIcon = (Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>, color: string) => {
-  return React.createElement(Icon, { className: color });
+// Modified createIcon function to work with IconType
+const createIcon = (Icon: IconType, color: string) => {
+  return React.createElement(Icon as React.ComponentType<IconBaseProps>, { className: color });
 };
 
 export const WORKFLOWS: Workflow[] = [
@@ -181,12 +184,14 @@ export const WORKFLOWS: Workflow[] = [
       { name: 'idealclients', label: 'Ideal Clients', type: 'textarea' }
     ]
   }
-];export const WORKFLOW_MAPPINGS: Record<WorkflowId, string> = {
-    'website-content': 'wf_p2wq82lst0zv8ai4xzqngg9c',
-    'executive-summary': 'wf_rnt83hja65v396tfacrkc90v',
-    'market-analysis': 'wf_l16fob3uhzbla275dliwa7xw',
-    'product-line': 'wf_dqdzodpzkeygaozu6axhesmb',
-    'market-strategy': 'wf_acuyc5g9m7srgizvmx24b5ke',
-    'sales-strategy': 'wf_kairwr8n4qqd8fvnvpq9z4sk',
-    'operations-plan': 'wf_xuj87kcpg5oeia7qudl2m2l6'
-  };
+];
+
+export const WORKFLOW_MAPPINGS: Record<WorkflowId, string> = {
+  'website-content': 'wf_p2wq82lst0zv8ai4xzqngg9c',
+  'executive-summary': 'wf_rnt83hja65v396tfacrkc90v',
+  'market-analysis': 'wf_l16fob3uhzbla275dliwa7xw',
+  'product-line': 'wf_dqdzodpzkeygaozu6axhesmb',
+  'market-strategy': 'wf_acuyc5g9m7srgizvmx24b5ke',
+  'sales-strategy': 'wf_kairwr8n4qqd8fvnvpq9z4sk',
+  'operations-plan': 'wf_xuj87kcpg5oeia7qudl2m2l6'
+};

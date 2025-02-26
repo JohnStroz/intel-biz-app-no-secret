@@ -1,6 +1,7 @@
 import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 import { IconType } from 'react-icons';
+import type { IconBaseProps } from 'react-icons';
 
 import { cn } from '@/lib/utils';
 
@@ -88,7 +89,10 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
         )}
         {...rest}
       >
-        {Icon && <Icon size='1em' className={cn(classNames?.icon)} />}
+        {Icon && React.createElement(Icon as React.ComponentType<IconBaseProps>, {
+          size: '1em',
+          className: cn(classNames?.icon)
+        })}
       </UnstyledLink>
     );
   }
