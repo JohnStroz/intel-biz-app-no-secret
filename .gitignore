@@ -12,14 +12,13 @@ node_modules/
 jspm_packages/
 
 # Environment variable files
-.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.example
+.env.example.backup
 
 # Next.js build output
 .next
 out
-.env.example
-.env.example.backup
